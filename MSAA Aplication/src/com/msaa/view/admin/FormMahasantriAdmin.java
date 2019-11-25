@@ -6,8 +6,17 @@
 package com.msaa.view.admin;
 
 import com.msaa.view.admin.FormAdmin;
+import com.mysql.jdbc.Connection;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.koneksi;
 
 /**
  *
@@ -17,21 +26,121 @@ import java.awt.Toolkit;
  * @author Nisa Kholifatul Ummah (18650065)
  */
 public class FormMahasantriAdmin extends javax.swing.JFrame {
-    Dimension layar = Toolkit.getDefaultToolkit().getScreenSize();
+    private DefaultTableModel model;
     
     /**
      * Creates new form AdminMahasantri
      */
     public FormMahasantriAdmin() {
         initComponents();
-        lokasi();
+        setLocationRelativeTo(null);
+        awal();
     }
     
-    protected void lokasi(){
-        int x = layar.width / 2  -this.getSize().width / 2;
-        int y = layar.height / 2 - this.getSize().height / 2;
-        setLocation(x, y);
+    public void awal(){
+        try {
+            cm_mabna.removeAllItems();
+            cm_jurusan.removeAllItems();
+            Connection conn = (Connection) koneksi.koneksiDB();
+            Statement stmt = conn.createStatement();
+            Statement stmt1 = conn.createStatement();
+            ResultSet mabna = stmt.executeQuery("select nama_mab from mabna");
+            ResultSet jurusan = stmt1.executeQuery("select nama_jur from jurusan");
+
+            while (mabna.next()) {
+                String obj = mabna.getString("nama_mab");
+                cm_mabna.addItem(obj);
+
+            }
+            while (jurusan.next()) {
+                String obj = jurusan.getString("nama_jur");
+                cm_jurusan.addItem(obj);
+
+            }
+        } catch (SQLException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        model();
+        txt_nim.setText(null);
+        txt_nama.setText(null);
+        txt_lantai.setText(null);
+        txt_kamar.setText(null);
     }
+    
+    public String ambilkodejur(String namamajur) {
+        try {
+            PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
+                    "select kode_jur from jurusan where nama_jur = ?");
+
+            statement.setString(1, namamajur);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                return result.getString("kode_jur");
+            }
+
+        } catch (SQLException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return null;
+    }
+    
+    public String ambilkodemabna(String namamamabna) {
+        try {
+            PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
+                    "select kode_mab from mabna where nama_mab = ?");
+
+            statement.setString(1, namamamabna);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                return result.getString("kode_mab");
+            }
+
+        } catch (SQLException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return null;
+    }
+    
+    public void model() {
+
+        model = new DefaultTableModel();
+        tabel_mahasantri.setModel(model);
+        model.addColumn("NIM");
+        model.addColumn("Nama");
+        model.addColumn("Fakultas");
+        model.addColumn("Jurusan");
+        model.addColumn("Mabna");
+        model.addColumn("Kamar");
+        model.addColumn("Lantai");
+
+        getdata();
+    }
+
+    public void getdata() {
+        try {
+            Connection conn = (Connection) koneksi.koneksiDB();
+            Statement stmt = conn.createStatement();
+            ResultSet data = stmt.executeQuery("select M.nim_mahasantri, M.nama, F.nama_fak, J.nama_jur, J.kode_fak , N.nama_mab, M.kamar, M.lantai from mahasantri M , fakultas F, jurusan J, mabna N where M.kode_jur = J.kode_jur and F.kode_fak = J.kode_fak and M.kode_mab = N.kode_mab");
+
+            while (data.next()) {
+                Object[] obj = new Object[7];
+                obj[0] = data.getString("M.nim_mahasantri");
+                obj[1] = data.getString("M.nama");
+                obj[2] = data.getString("F.nama_fak");
+                obj[3] = data.getString("J.nama_jur");
+                obj[4] = data.getString("N.nama_mab");
+                obj[5] = data.getString("M.kamar");
+                obj[6] = data.getString("M.lantai");
+
+                model.addRow(obj);
+
+            }
+        } catch (SQLException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,31 +153,26 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
 
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txt_nim = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabel_mahasantri = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jComboBox6 = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
+        cm_mabna = new javax.swing.JComboBox<>();
+        cm_jurusan = new javax.swing.JComboBox<>();
+        txt_nama = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel11 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txt_lantai = new javax.swing.JTextField();
+        txt_kamar = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,9 +180,9 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
 
         jLabel5.setText("MABNA");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txt_nim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txt_nimActionPerformed(evt);
             }
         });
 
@@ -89,7 +193,7 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabel_mahasantri.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -116,15 +220,28 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
                 "NIM", "Nama", "Mabna", "Kamar", "Lantai", "Devisi", "Fakultas", "Jurusan", "Password"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tabel_mahasantri.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabel_mahasantriMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabel_mahasantri);
 
         jButton3.setText("Edit");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("KAMAR");
 
         jButton4.setText("Hapus");
-
-        jLabel7.setText("FAKULTAS");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Refres");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -143,19 +260,9 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
 
         jLabel9.setText("Lantai");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txt_nama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txt_namaActionPerformed(evt);
             }
         });
 
@@ -166,13 +273,12 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
             }
         });
 
-        jLabel10.setText("Devisi");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel11.setText("Password");
-
-        jTextField3.setText("jTextField3");
+        jButton6.setText("Simpan");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -190,39 +296,31 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(312, 312, 312)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel7)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
+                            .addComponent(jLabel8)
                             .addComponent(jLabel6)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(47, 47, 47)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
-                                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jComboBox4, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 100, Short.MAX_VALUE))
-                                    .addComponent(jTextField3))))
-                        .addGap(69, 69, 69)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addComponent(jLabel5))
+                        .addGap(47, 47, 47)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cm_jurusan, 0, 293, Short.MAX_VALUE)
+                            .addComponent(cm_mabna, 0, 293, Short.MAX_VALUE)
+                            .addComponent(txt_nim, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                            .addComponent(txt_nama, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txt_kamar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                                .addComponent(txt_lantai, javax.swing.GroupLayout.Alignment.LEADING)))))
+                .addGap(69, 69, 69)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(40, Short.MAX_VALUE)
@@ -239,55 +337,44 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_nim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton5))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(cm_jurusan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jButton4)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cm_mabna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_lantai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_kamar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(118, 118, 118)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txt_nimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nimActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txt_nimActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -295,11 +382,12 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        awal();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txt_namaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_namaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txt_namaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -307,6 +395,132 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
         n.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            if (txt_nim.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Maaf, NIM belum diisi !");
+                txt_nim.requestFocus();
+            } else if (txt_nama.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Maaf, Nama belum diisi !");
+                txt_nama.requestFocus();
+                
+            } else if (txt_kamar.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Maaf, Kamar belum diisi !");
+                txt_kamar.requestFocus();
+                
+            } else if (txt_lantai.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Maaf, Lantai belum diisi !");
+                txt_lantai.requestFocus();
+                
+            } else {
+                PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
+                        "insert into mahasantri values (?,?,?,?,?,?)");
+
+                statement.setString(1, txt_nim.getText());
+                statement.setString(2, txt_nama.getText());
+                statement.setString(3, ambilkodejur(cm_jurusan.getSelectedItem().toString()));
+                statement.setString(4, ambilkodemabna(cm_mabna.getSelectedItem().toString()));
+                statement.setString(5, txt_lantai.getText());
+                statement.setString(6, txt_kamar.getText());
+                statement.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data Baru telah di tambahkan");
+                awal();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "gagal menambah Data");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        if (JOptionPane.showConfirmDialog(null, "Apakah Anda yakin akan menghapus dataini ?", "Warning", 2) == JOptionPane.YES_OPTION) {
+            try {
+
+                PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
+                        "delete from mahasantri where nim = ?");
+
+                statement.setString(1, txt_nim.getText());
+                statement.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Data Telah Di Hapus");
+                awal();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Data Gagal Di Hapus");
+            }
+
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            if (txt_nim.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Maaf, NIM belum diisi !");
+                txt_nim.requestFocus();
+            } else if (txt_nama.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Maaf, Nama belum diisi !");
+                txt_nama.requestFocus();
+                
+            } else if (txt_kamar.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Maaf, Kamar belum diisi !");
+                txt_kamar.requestFocus();
+                
+            } else if (txt_lantai.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Maaf, Lantai belum diisi !");
+                txt_lantai.requestFocus();
+                
+            } else {
+                PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
+                        "UPDATE mahasantri SET nama = ?, kode_jur = ?, kode_mab = ?, lantai = ?, kamar = ? WHERE nim = ?");
+
+                statement.setString(1, txt_nama.getText());
+                statement.setString(2, ambilkodejur(cm_jurusan.getSelectedItem().toString()));
+                statement.setString(3, ambilkodemabna(cm_mabna.getSelectedItem().toString()));
+                statement.setString(4, txt_lantai.getText());
+                statement.setString(5, txt_kamar.getText());
+                statement.setString(6, txt_nim.getText());
+                statement.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data Baru telah di ubah");
+                awal();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "gagal mengubah Data");
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tabel_mahasantriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel_mahasantriMouseClicked
+        // TODO add your handling code here:
+        try {
+            int row = tabel_mahasantri.rowAtPoint(evt.getPoint());
+
+            String nim = tabel_mahasantri.getValueAt(row, 0).toString();
+            String nama = tabel_mahasantri.getValueAt(row, 1).toString();
+            String jurusan = tabel_mahasantri.getValueAt(row, 3).toString();
+            String mabna = tabel_mahasantri.getValueAt(row, 4).toString();
+            String lantai = tabel_mahasantri.getValueAt(row, 5).toString();
+            String kamar = tabel_mahasantri.getValueAt(row, 6).toString();
+
+            txt_nim.setText(String.valueOf(nim));
+            txt_nama.setText(String.valueOf(nama));
+            cm_jurusan.setSelectedItem(jurusan);
+            cm_mabna.setSelectedItem(mabna);
+            txt_lantai.setText(String.valueOf(lantai));
+            txt_kamar.setText(String.valueOf(kamar));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_tabel_mahasantriMouseClicked
 
     /**
      * @param args the command line arguments
@@ -347,32 +561,27 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cm_jurusan;
+    private javax.swing.JComboBox<String> cm_mabna;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTable tabel_mahasantri;
+    private javax.swing.JTextField txt_kamar;
+    private javax.swing.JTextField txt_lantai;
+    private javax.swing.JTextField txt_nama;
+    private javax.swing.JTextField txt_nim;
     // End of variables declaration//GEN-END:variables
 }

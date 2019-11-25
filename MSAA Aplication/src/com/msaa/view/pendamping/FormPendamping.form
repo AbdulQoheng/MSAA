@@ -45,10 +45,10 @@
                       </Group>
                       <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lantai" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="fakultas" min="-2" max="-2" attributes="0"/>
-                          <Component id="jurusan" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_devisi" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_lantai" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_fakultas" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_jurusan" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="password" min="-2" pref="293" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -65,10 +65,10 @@
                       </Group>
                       <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="nim" min="-2" max="-2" attributes="0"/>
-                          <Component id="nama" min="-2" max="-2" attributes="0"/>
-                          <Component id="mabna" min="-2" max="-2" attributes="0"/>
-                          <Component id="kamar" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_nim" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_nama" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_mabna" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_kamar" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -94,42 +94,42 @@
               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="nim" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_nim" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="nama" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_nama" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="mabna" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_mabna" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="kamar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_kamar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lantai" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_lantai" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_devisi" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="fakultas" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_fakultas" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jurusan" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_jurusan" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="24" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -237,32 +237,32 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="nim">
+    <Component class="javax.swing.JLabel" name="txt_nim">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel10"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="nama">
+    <Component class="javax.swing.JLabel" name="txt_nama">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel11"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="mabna">
+    <Component class="javax.swing.JLabel" name="txt_mabna">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel12"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="kamar">
+    <Component class="javax.swing.JLabel" name="txt_kamar">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel13"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="fakultas">
+    <Component class="javax.swing.JLabel" name="txt_fakultas">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel14"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jurusan">
+    <Component class="javax.swing.JLabel" name="txt_jurusan">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel15"/>
       </Properties>
@@ -272,7 +272,7 @@
         <Property name="text" type="java.lang.String" value="Lantai"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lantai">
+    <Component class="javax.swing.JLabel" name="txt_lantai">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel11"/>
       </Properties>
@@ -282,7 +282,7 @@
         <Property name="text" type="java.lang.String" value="Devisi"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel12">
+    <Component class="javax.swing.JLabel" name="txt_devisi">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel12"/>
       </Properties>

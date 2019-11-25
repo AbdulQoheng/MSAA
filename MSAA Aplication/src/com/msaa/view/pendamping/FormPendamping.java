@@ -5,10 +5,8 @@
  */
 package com.msaa.view.pendamping;
 
-import com.msaa.model.user;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import com.msaa.view.FormLogin;
 
 /**
  *
@@ -58,16 +56,16 @@ public class FormPendamping extends javax.swing.JFrame {
         jButton11 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        nim = new javax.swing.JLabel();
-        nama = new javax.swing.JLabel();
-        mabna = new javax.swing.JLabel();
-        kamar = new javax.swing.JLabel();
-        fakultas = new javax.swing.JLabel();
-        jurusan = new javax.swing.JLabel();
+        txt_nim = new javax.swing.JLabel();
+        txt_nama = new javax.swing.JLabel();
+        txt_mabna = new javax.swing.JLabel();
+        txt_kamar = new javax.swing.JLabel();
+        txt_fakultas = new javax.swing.JLabel();
+        txt_jurusan = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        lantai = new javax.swing.JLabel();
+        txt_lantai = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        txt_devisi = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,25 +122,25 @@ public class FormPendamping extends javax.swing.JFrame {
             }
         });
 
-        nim.setText("jLabel10");
+        txt_nim.setText("jLabel10");
 
-        nama.setText("jLabel11");
+        txt_nama.setText("jLabel11");
 
-        mabna.setText("jLabel12");
+        txt_mabna.setText("jLabel12");
 
-        kamar.setText("jLabel13");
+        txt_kamar.setText("jLabel13");
 
-        fakultas.setText("jLabel14");
+        txt_fakultas.setText("jLabel14");
 
-        jurusan.setText("jLabel15");
+        txt_jurusan.setText("jLabel15");
 
         jLabel10.setText("Lantai");
 
-        lantai.setText("jLabel11");
+        txt_lantai.setText("jLabel11");
 
         jLabel11.setText("Devisi");
 
-        jLabel12.setText("jLabel12");
+        txt_devisi.setText("jLabel12");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,10 +166,10 @@ public class FormPendamping extends javax.swing.JFrame {
                             .addComponent(jLabel8))
                         .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(lantai)
-                            .addComponent(fakultas)
-                            .addComponent(jurusan)
+                            .addComponent(txt_devisi)
+                            .addComponent(txt_lantai)
+                            .addComponent(txt_fakultas)
+                            .addComponent(txt_jurusan)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -184,10 +182,10 @@ public class FormPendamping extends javax.swing.JFrame {
                             .addComponent(jLabel6))
                         .addGap(61, 61, 61)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nim)
-                            .addComponent(nama)
-                            .addComponent(mabna)
-                            .addComponent(kamar)))
+                            .addComponent(txt_nim)
+                            .addComponent(txt_nama)
+                            .addComponent(txt_mabna)
+                            .addComponent(txt_kamar)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(229, 229, 229)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,35 +204,35 @@ public class FormPendamping extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(nim))
+                    .addComponent(txt_nim))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(nama))
+                    .addComponent(txt_nama))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(mabna))
+                    .addComponent(txt_mabna))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(kamar))
+                    .addComponent(txt_kamar))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(lantai))
+                    .addComponent(txt_lantai))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jLabel12))
+                    .addComponent(txt_devisi))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(fakultas))
+                    .addComponent(txt_fakultas))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jurusan))
+                    .addComponent(txt_jurusan))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -307,18 +305,12 @@ public class FormPendamping extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if(user.getUserid() == null){
-                    new FormLogin().setVisible(true);
-                }else{
-                    new FormPendamping().setVisible(true);
-                }
-                
+               new FormPendamping().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel fakultas;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
@@ -327,7 +319,6 @@ public class FormPendamping extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -336,12 +327,14 @@ public class FormPendamping extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jurusan;
-    private javax.swing.JLabel kamar;
-    private javax.swing.JLabel lantai;
-    private javax.swing.JLabel mabna;
-    private javax.swing.JLabel nama;
-    private javax.swing.JLabel nim;
     private javax.swing.JPasswordField password;
+    private javax.swing.JLabel txt_devisi;
+    private javax.swing.JLabel txt_fakultas;
+    private javax.swing.JLabel txt_jurusan;
+    private javax.swing.JLabel txt_kamar;
+    private javax.swing.JLabel txt_lantai;
+    private javax.swing.JLabel txt_mabna;
+    private javax.swing.JLabel txt_nama;
+    private javax.swing.JLabel txt_nim;
     // End of variables declaration//GEN-END:variables
 }

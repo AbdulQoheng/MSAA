@@ -24,14 +24,10 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
      */
     public FormTahsinAdmin() {
         initComponents();
-        lokasi();
+        setLocationRelativeTo(null);
     }
     
-    protected void lokasi(){
-        int x = layar.width / 2  -this.getSize().width / 2;
-        int y = layar.height / 2 - this.getSize().height / 2;
-        setLocation(x, y);
-    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
