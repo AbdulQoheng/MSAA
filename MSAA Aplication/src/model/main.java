@@ -12,6 +12,15 @@ package model;
 public class main {
     private static String user;
     private static String sebagai;
+    private static String mabna;
+
+    public static String getMabna() {
+        return mabna;
+    }
+
+    public static void setMabna(String mabna) {
+        main.mabna = mabna;
+    }
 
     public static String getUser() {
         return user;

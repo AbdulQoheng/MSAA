@@ -80,7 +80,7 @@ public class FormDevisiAdmin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setText("Devisi");
 
         jLabel2.setText("jLabel2");
 

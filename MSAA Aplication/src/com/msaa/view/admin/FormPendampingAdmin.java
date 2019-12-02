@@ -392,7 +392,7 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
                 nama_txt.requestFocus();
             } else if (pass_txt.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Maaf, Password belum diisi !");
-                nama_txt.requestFocus();
+                pass_txt.requestFocus();
             } else {
                 String userid = userid_txt.getText();
                 String nama = nama_txt.getText();
