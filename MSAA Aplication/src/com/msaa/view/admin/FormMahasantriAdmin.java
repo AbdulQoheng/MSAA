@@ -7,11 +7,21 @@ package com.msaa.view.admin;
 
 import com.mysql.jdbc.Connection;
 import java.awt.HeadlessException;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.koneksi;
 
@@ -23,8 +33,11 @@ import model.koneksi;
  * @author Nisa Kholifatul Ummah (18650065)
  */
 public class FormMahasantriAdmin extends javax.swing.JFrame {
+
     private DefaultTableModel model;
-    
+    private String pathfile;
+    private JTable table;
+
     /**
      * Creates new form AdminMahasantri
      */
@@ -32,9 +45,10 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         awal();
+        btn_Importfile.setEnabled(false);
     }
-    
-    public void awal(){
+
+    public void awal() {
         try {
             cm_mabna.removeAllItems();
             cm_jurusan.removeAllItems();
@@ -57,14 +71,14 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
         } catch (SQLException | HeadlessException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        
+
         model();
         txt_nim.setText(null);
         txt_nama.setText(null);
         txt_lantai.setText(null);
         txt_kamar.setText(null);
     }
-    
+
     public String ambilkodejur(String namamajur) {
         try {
             PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
@@ -81,7 +95,7 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
         }
         return null;
     }
-    
+
     public String ambilkodemabna(String namamamabna) {
         try {
             PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
@@ -98,7 +112,41 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
         }
         return null;
     }
-    
+
+    public static void saveCSV(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        JFileChooser chooser = new JFileChooser();
+        int state = chooser.showSaveDialog(null);
+        File file = chooser.getSelectedFile();
+        if (file != null && state == JFileChooser.APPROVE_OPTION) {
+            try {
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+                PrintWriter fileWriter = new PrintWriter(bufferedWriter);
+                bufferedWriter.write("NIM, Nama, Fakultas, Jurusan, Mabna, Kamar, Lantai \r\n");
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    for (int j = 0; j < model.getColumnCount(); j++) {
+                        Object o = model.getValueAt(i, j);
+                        String s = String.valueOf(o);
+//                        System.out.print(s);
+                        bufferedWriter.write(s);
+
+                        if (j < model.getColumnCount() - 1) {
+                            bufferedWriter.write(",");
+                        } else {
+                            bufferedWriter.write("\r\n");
+                        }
+                    }
+                }
+                
+                fileWriter.close();
+                JOptionPane.showMessageDialog(null, "Success");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Failure");
+            }
+        }
+    }
+
     public void model() {
 
         model = new DefaultTableModel();
@@ -138,7 +186,6 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
         }
     }
 
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -170,6 +217,9 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
         txt_lantai = new javax.swing.JTextField();
         txt_kamar = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        btn_Importfile = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -277,6 +327,27 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
             }
         });
 
+        jButton7.setText("Pilih File CSV");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        btn_Importfile.setText("Import File");
+        btn_Importfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ImportfileActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Export to CSV");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -290,6 +361,10 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(450, 450, 450))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1014, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
             .addGroup(layout.createSequentialGroup()
                 .addGap(312, 312, 312)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,22 +382,23 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
                             .addComponent(cm_mabna, 0, 293, Short.MAX_VALUE)
                             .addComponent(txt_nim, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
                             .addComponent(txt_nama, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txt_kamar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                                .addComponent(txt_lantai, javax.swing.GroupLayout.Alignment.LEADING)))))
+                            .addComponent(txt_kamar, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                            .addComponent(txt_lantai))))
                 .addGap(69, 69, 69)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                    .addComponent(btn_Importfile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1014, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,12 +411,14 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txt_nim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(btn_Importfile))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -361,7 +439,9 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(txt_kamar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(118, 118, 118)
+                .addGap(81, 81, 81)
+                .addComponent(jButton8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(37, Short.MAX_VALUE))
         );
@@ -375,7 +455,7 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -404,15 +484,15 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
             } else if (txt_nama.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Maaf, Nama belum diisi !");
                 txt_nama.requestFocus();
-                
+
             } else if (txt_kamar.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Maaf, Kamar belum diisi !");
                 txt_kamar.requestFocus();
-                
+
             } else if (txt_lantai.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Maaf, Lantai belum diisi !");
                 txt_lantai.requestFocus();
-                
+
             } else {
                 PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
                         "insert into mahasantri values (?,?,?,?,?,?)");
@@ -466,15 +546,15 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
             } else if (txt_nama.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Maaf, Nama belum diisi !");
                 txt_nama.requestFocus();
-                
+
             } else if (txt_kamar.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Maaf, Kamar belum diisi !");
                 txt_kamar.requestFocus();
-                
+
             } else if (txt_lantai.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Maaf, Lantai belum diisi !");
                 txt_lantai.requestFocus();
-                
+
             } else {
                 PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
                         "UPDATE mahasantri SET nama = ?, kode_jur = ?, kode_mab = ?, lantai = ?, kamar = ? WHERE nim = ?");
@@ -494,7 +574,7 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "gagal mengubah Data");
         }
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void tabel_mahasantriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel_mahasantriMouseClicked
@@ -519,6 +599,61 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_tabel_mahasantriMouseClicked
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooseFile = new JFileChooser();
+        chooseFile.showOpenDialog(null);
+        File file = chooseFile.getSelectedFile();
+        pathfile = file.getAbsolutePath();
+        btn_Importfile.setEnabled(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void btn_ImportfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ImportfileActionPerformed
+        // TODO add your handling code here:
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(pathfile));
+            String line;
+            int pas = 0;
+            while ((line = br.readLine()) != null) {
+
+                String[] value = line.split(",");
+                String sql = "insert into mahasantri values (?,?,?,?,?,?)";
+                java.sql.Connection conn = (java.sql.Connection) koneksi.koneksiDB();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+
+                if (pas == 0) {
+                    pas = 1;
+                } else {
+                    stmt.setString(1, value[0]);
+                    stmt.setString(2, value[1]);
+                    stmt.setString(3, value[2]);
+                    stmt.setString(4, value[3]);
+                    stmt.setString(5, value[4]);
+                    stmt.setString(6, value[5]);
+                    stmt.executeUpdate();
+                    stmt.close();
+                    awal();
+                }
+
+            }
+
+            br.close();
+            JOptionPane.showMessageDialog(null, "Import data berhasil !");
+            btn_Importfile.setEnabled(false);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_ImportfileActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        saveCSV(tabel_mahasantri);
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -559,6 +694,7 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Importfile;
     private javax.swing.JComboBox<String> cm_jurusan;
     private javax.swing.JComboBox<String> cm_mabna;
     private javax.swing.JButton jButton1;
@@ -567,6 +703,8 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

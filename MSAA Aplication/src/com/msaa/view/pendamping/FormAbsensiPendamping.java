@@ -7,11 +7,17 @@ package com.msaa.view.pendamping;
 
 import com.mysql.jdbc.Connection;
 import java.awt.HeadlessException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.koneksi;
 import model.pendamping;
@@ -23,7 +29,8 @@ import model.pendamping;
 public class FormAbsensiPendamping extends javax.swing.JFrame {
 
     private DefaultTableModel model = new DefaultTableModel();
-
+    private String pathfile;
+    private JTable table;
     /**
      * Creates new form ATaklimAfkar
      */
@@ -32,6 +39,9 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         awal();
         model();
+        getdata();
+        
+        btn_Importfile.setEnabled(false);
     }
 
     public void awal() {
@@ -76,6 +86,34 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
         model.addColumn("Izin");
         model.addColumn("Sakit");
 
+    }
+    public void getdata() {
+        try {
+            model();
+            Connection conn = (Connection) koneksi.koneksiDB();
+            Statement stmt = conn.createStatement();
+            ResultSet data = stmt.executeQuery("select M.nim_mahasantri, M.nama, A.no_absen, A.bulan, T.namaTakl, N.namatingkat , A.kelastakl, A.Hadir, A.alpha, A.izin, A.sakit, U.nama_mab from mahasantri M, absen A, taklim T, tingakTaklim N, mabna U where M.nim_mahasantri = A.nim_mhs and M.kode_mab = U.kode_mab and A.no_tingkattak = N.no_tingkattak and T.no_Takl = A.no_Takl");
+
+            while (data.next()) {
+                Object[] obj = new Object[11];
+                obj[0] = data.getString("A.no_absen");
+                obj[1] = data.getString("M.nim_mahasantri");
+                obj[2] = data.getString("M.nama");
+                obj[3] = data.getString("T.namaTakl");
+                obj[4] = data.getString("N.namatingkat");
+                obj[5] = data.getString("A.kelastakl");
+                obj[6] = data.getString("A.bulan");
+                obj[7] = data.getString("A.Hadir");
+                obj[8] = data.getString("A.alpha");
+                obj[9] = data.getString("A.izin");
+                obj[10] = data.getString("A.sakit");
+                
+                model.addRow(obj);
+
+            }
+        } catch (SQLException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     public String ambilkodemabna(String namamabna) {
@@ -168,6 +206,8 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         txt_kelas = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        btn_Importfile = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -289,7 +329,7 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
 
         cm_tingkatan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        txt_no.setText("jLabel10");
+        txt_no.setText("0");
 
         jLabel11.setText("Kelas");
 
@@ -300,14 +340,28 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
             }
         });
 
+        jButton7.setText("Pilih File SCV");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        btn_Importfile.setText("Import File");
+        btn_Importfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ImportfileActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(txt_no)
-                .addGap(300, 300, 300)
+                .addComponent(txt_no, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(246, 246, 246)
                 .addComponent(jLabel15)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
@@ -346,13 +400,15 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
                                 .addGap(53, 53, 53)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_Importfile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txt_kelas, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txt_izin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                                 .addComponent(txt_alpha, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txt_hadi, javax.swing.GroupLayout.Alignment.LEADING)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50))
         );
@@ -365,8 +421,8 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
                         .addComponent(jLabel15))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(txt_no)))
-                .addGap(34, 34, 34)
+                        .addComponent(txt_no, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -383,11 +439,14 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(cm_tingkatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(16, 16, 16)
+                            .addComponent(cm_tingkatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton7))
+                        .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3)
-                            .addComponent(cm_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cm_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_Importfile)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9)
@@ -419,7 +478,7 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
                             .addComponent(jButton3)
                             .addComponent(jButton4)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
@@ -503,6 +562,8 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         model();
+        getdata();
+        awal();
         txt_alpha.setText(null);
         txt_hadi.setText(null);
         txt_izin.setText(null);
@@ -589,11 +650,67 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
             txt_nim.setText(null);
             txt_sakit.setText(null);
             txt_no.setText(null);
+            getdata();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooseFile = new JFileChooser();
+        chooseFile.showOpenDialog(null);
+        File file = chooseFile.getSelectedFile();
+        pathfile = file.getAbsolutePath();
+        btn_Importfile.setEnabled(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void btn_ImportfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ImportfileActionPerformed
+        // TODO add your handling code here:
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(pathfile));
+            String line;
+            int pas = 0;
+            while ((line = br.readLine()) != null) {
+
+                String[] value = line.split(",");
+                String sql = "insert into absen values (null,?,?,?,?,?,?,?,?,?)";
+                java.sql.Connection conn = (java.sql.Connection) koneksi.koneksiDB();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+
+                if (pas == 0) {
+                    pas = 1;
+                } else {
+                    stmt.setString(1, value[0]);
+                    stmt.setString(2, value[1]);
+                    stmt.setString(3, value[2]);
+                    stmt.setString(4, value[3]);
+                    stmt.setString(5, value[4]);
+                    stmt.setString(6, value[5]);
+                    stmt.setString(7, value[6]);
+                    stmt.setString(8, value[7]);
+                    stmt.setString(9, value[8]);
+                    stmt.executeUpdate();
+                    stmt.close();
+                    awal();
+                    
+                }
+
+            }
+
+            br.close();
+            JOptionPane.showMessageDialog(null, "Import data berhasil !");
+            btn_Importfile.setEnabled(false);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            ex.printStackTrace();
+        }
+    
+    }//GEN-LAST:event_btn_ImportfileActionPerformed
 
     /**
      * @param args the command line arguments
@@ -638,6 +755,7 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Importfile;
     private javax.swing.JComboBox<String> cm_bulan;
     private javax.swing.JComboBox<String> cm_taklim;
     private javax.swing.JComboBox<String> cm_tingkatan;
@@ -647,6 +765,7 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel15;

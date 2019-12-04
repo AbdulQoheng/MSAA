@@ -9,10 +9,15 @@ import com.mysql.jdbc.Connection;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.koneksi;
@@ -29,6 +34,7 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
 
     Dimension layar = Toolkit.getDefaultToolkit().getScreenSize();
     private DefaultTableModel model = new DefaultTableModel();
+    private String pathfile;
 
     /**
      * Creates new form Tahsin
@@ -36,7 +42,8 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
     public FormTahsinPendamping() {
         initComponents();
         lokasi();
-        model();
+        getdata();
+        btn_importfile.setEnabled(true);
     }
 
     protected void lokasi() {
@@ -58,6 +65,32 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
         model.addColumn("Surat");
         model.addColumn("Ayat");
 
+    }
+    public void getdata(){
+        try {
+            model();
+            Connection conn = (Connection) koneksi.koneksiDB();
+            Statement stmt = conn.createStatement();
+            ResultSet data = stmt.executeQuery("select T.no_tahsin, T.bulan, T.juz, T.surat, T.ayat, T.nim_mhs, M.nama from tahsin T natural join mahasantri M natural join mabna N where T.nim_mhs = M.nim_mahasantri and M.kode_mab = N.kode_mab and N.nama_mab = '"+txt_mabna.getText()+"'");
+
+            while (data.next()) {
+                Object[] obj = new Object[8];
+                obj[0] = data.getString("T.no_tahsin");
+                obj[1] = data.getString("T.nim_mhs");
+                obj[2] = data.getString("M.nama");
+                obj[3] = data.getString("T.bulan");
+                obj[4] = data.getString("T.juz");
+                obj[5] = data.getString("T.surat");
+                obj[6] = data.getString("T.surat");
+                obj[7] = data.getString("T.ayat");
+
+                model.addRow(obj);
+
+            }
+        } catch (SQLException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -89,6 +122,8 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         txt_id = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        btn_importfile = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -167,6 +202,11 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
                 "NIM", "Nama", "Kelas", "Mahad", "Lantai", "Kamar", "Juz", "Surat", "ayat", "Kelancaran", "Fashohah", "Tajwid"
             }
         ));
+        tabel_tahsin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabel_tahsinMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabel_tahsin);
 
         jLabel9.setText("Mahad");
@@ -187,7 +227,21 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
             }
         });
 
-        txt_id.setText("jLabel2");
+        txt_id.setText("0");
+
+        jButton5.setText("Pilih file csv");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        btn_importfile.setText("import file");
+        btn_importfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_importfileActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -215,21 +269,23 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txt_mabna)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txt_nim, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cm_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(55, 55, 55)
+                                    .addComponent(cm_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_mabna)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txt_juz, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txt_surah, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txt_ayat, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(31, 31, 31)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txt_juz, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txt_surah, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txt_ayat, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_importfile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1132, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -244,9 +300,9 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(21, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txt_id, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txt_id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -265,12 +321,19 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
                         .addComponent(jButton6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
-                        .addGap(60, 60, 60)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(txt_juz, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_surah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_ayat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel6)
+                                    .addComponent(txt_juz, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_surah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_ayat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_importfile)))))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
@@ -323,6 +386,7 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
             txt_juz.setText(null);
             txt_nim.setText(null);
             txt_surah.setText(null);
+            getdata();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -337,7 +401,7 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
             model();
             Connection conn = (Connection) koneksi.koneksiDB();
             Statement stmt = conn.createStatement();
-            ResultSet data = stmt.executeQuery("select T.no_tahsin, T.bulan T.juz, T.surat, T.ayat, T.nim_mhs, M.nama from tahsin natural join mahasantri where T.nim_mhs = M.nim_mahasantri and T.nim_mhs = '" + txt_nim.getText() + "' and T.bulan = '" + cm_bulan.getSelectedItem().toString() + "'");
+            ResultSet data = stmt.executeQuery("select T.no_tahsin, T.bulan, T.juz, T.surat, T.ayat, T.nim_mhs, M.nama from tahsin T natural join mahasantri M natural join mabna N where T.nim_mhs = M.nim_mahasantri and M.kode_mab = N.kode_mab and N.nama_mab = '"+txt_mabna.getText()+"' and T.nim_mhs like '%" + txt_nim.getText() + "%' and T.bulan = '" + cm_bulan.getSelectedItem().toString() + "'");
 
             while (data.next()) {
                 Object[] obj = new Object[8];
@@ -374,7 +438,7 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
             txt_juz.setText(null);
             txt_nim.setText(null);
             txt_surah.setText(null);
-
+            getdata();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -404,12 +468,82 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
             txt_juz.setText(null);
             txt_nim.setText(null);
             txt_surah.setText(null);
-
+            getdata();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooseFile = new JFileChooser();
+        chooseFile.showOpenDialog(null);
+        File file = chooseFile.getSelectedFile();
+        pathfile = file.getAbsolutePath();
+        btn_importfile.setEnabled(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void btn_importfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_importfileActionPerformed
+        // TODO add your handling code here:
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(pathfile));
+            String line;
+            int pas = 0;
+            while ((line = br.readLine()) != null) {
+
+                String[] value = line.split(",");
+                String sql = "insert into tahsin values (null,?,?,?,?,?)";
+                java.sql.Connection conn = (java.sql.Connection) koneksi.koneksiDB();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+
+                if (pas == 0) {
+                    pas = 1;
+                } else {
+                    stmt.setString(1, value[0]);
+                    stmt.setString(2, value[1]);
+                    stmt.setString(3, value[2]);
+                    stmt.setString(4, value[3]);
+                    stmt.setString(5, value[4]);
+                    stmt.executeUpdate();
+                    stmt.close();
+                    
+                    
+                }
+
+            }
+
+            br.close();
+            JOptionPane.showMessageDialog(null, "Import data berhasil !");
+            btn_importfile.setEnabled(false);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_importfileActionPerformed
+
+    private void tabel_tahsinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel_tahsinMouseClicked
+        // TODO add your handling code here:
+        try {
+
+            int row = tabel_tahsin.rowAtPoint(evt.getPoint());
+            if (row > -1) {
+                txt_id.setText(tabel_tahsin.getValueAt(row, 0).toString());
+                txt_nim.setText(tabel_tahsin.getValueAt(row, 1).toString());
+                cm_bulan.setSelectedItem(tabel_tahsin.getValueAt(row, 3).toString());
+                txt_juz.setText(tabel_tahsin.getValueAt(row, 4).toString());
+                txt_surah.setText(tabel_tahsin.getValueAt(row, 5).toString());
+                txt_ayat.setText(tabel_tahsin.getValueAt(row, 6).toString());
+                
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_tabel_tahsinMouseClicked
 
     /**
      * @param args the command line arguments
@@ -448,11 +582,13 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_importfile;
     private javax.swing.JComboBox<String> cm_bulan;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;

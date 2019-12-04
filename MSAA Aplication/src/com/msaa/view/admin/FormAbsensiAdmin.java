@@ -9,11 +9,17 @@ import com.mysql.jdbc.Connection;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.koneksi;
 
@@ -61,6 +67,40 @@ public class FormAbsensiAdmin extends javax.swing.JFrame {
         return null;
     }
     
+    public static void saveCSV(JTable table){
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+ 
+        JFileChooser chooser = new JFileChooser();
+        int state = chooser.showSaveDialog(null);
+        File file = chooser.getSelectedFile();
+        if (file != null && state == JFileChooser.APPROVE_OPTION) {
+            try {
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+                PrintWriter fileWriter = new PrintWriter(bufferedWriter);
+                bufferedWriter.write("NIM, Nama, Taklim, Tingkat, Kelas, Bulan, Mabna, Hadir, Alpha, Izin, Sakit \r\n");
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    for (int j = 1; j < model.getColumnCount(); j++) {
+                        Object o = model.getValueAt(i, j);
+                        String s = String.valueOf(o);
+//                        System.out.print(s);
+                        bufferedWriter.write(s);
+ 
+                        if(j < model.getColumnCount() - 1 ){
+                            bufferedWriter.write(",");
+                        } else {
+                            bufferedWriter.write("\r\n");
+                        }
+                    }
+                }
+ 
+                fileWriter.close();
+                JOptionPane.showMessageDialog(null, "Success");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Failure");
+            }
+        }
+    }
+    
     public void model() {
 
         model = new DefaultTableModel();
@@ -101,10 +141,10 @@ public class FormAbsensiAdmin extends javax.swing.JFrame {
         try {
             Connection conn = (Connection) koneksi.koneksiDB();
             Statement stmt = conn.createStatement();
-            ResultSet data = stmt.executeQuery("select M.nim_mahasantri, M.nama, A.no_absen, A.bulan, T.namaTakl, N.namatingkat , A.kelastakl, A.Hadir, A.alpha, A.izin, A.sakit  from mahasantri M, absen A, taklim T, tingakTaklim N where M.nim_mahasantri = A.nim_mhs and A.no_tingkattak = N.no_tingkattak and T.no_Takl = A.no_Takl");
+            ResultSet data = stmt.executeQuery("select M.nim_mahasantri, M.nama, A.no_absen, A.bulan, T.namaTakl, N.namatingkat , A.kelastakl, A.Hadir, A.alpha, A.izin, A.sakit, U.nama_mab from mahasantri M, absen A, taklim T, tingakTaklim N, mabna U where M.nim_mahasantri = A.nim_mhs and M.kode_mab = U.kode_mab and A.no_tingkattak = N.no_tingkattak and T.no_Takl = A.no_Takl");
 
             while (data.next()) {
-                Object[] obj = new Object[11];
+                Object[] obj = new Object[12];
                 obj[0] = data.getString("A.no_absen");
                 obj[1] = data.getString("M.nim_mahasantri");
                 obj[2] = data.getString("M.nama");
@@ -112,16 +152,18 @@ public class FormAbsensiAdmin extends javax.swing.JFrame {
                 obj[4] = data.getString("N.namatingkat");
                 obj[5] = data.getString("A.kelastakl");
                 obj[6] = data.getString("A.bulan");
-                obj[7] = data.getString("A.Hadir");
-                obj[8] = data.getString("A.alpha");
-                obj[9] = data.getString("A.izin");
-                obj[10] = data.getString("A.sakit");
+                obj[7] = data.getString("U.nama_mab");
+                obj[8] = data.getString("A.Hadir");
+                obj[9] = data.getString("A.alpha");
+                obj[10] = data.getString("A.izin");
+                obj[11] = data.getString("A.sakit");
 
                 model.addRow(obj);
 
             }
         } catch (SQLException | HeadlessException e) {
             JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
         }
     }
     
@@ -188,6 +230,7 @@ public class FormAbsensiAdmin extends javax.swing.JFrame {
         txt_kelas = new javax.swing.JTextField();
         txt_no = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -285,6 +328,13 @@ public class FormAbsensiAdmin extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setText("Export to csv");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -311,7 +361,9 @@ public class FormAbsensiAdmin extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton3))
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton5))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txt_nim)
@@ -368,7 +420,8 @@ public class FormAbsensiAdmin extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton1)
                     .addComponent(jButton4)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(jButton5))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
@@ -410,10 +463,10 @@ public class FormAbsensiAdmin extends javax.swing.JFrame {
             model();
             Connection conn = (Connection) koneksi.koneksiDB();
             Statement stmt = conn.createStatement();
-            ResultSet data = stmt.executeQuery("select M.nim_mahasantri, M.nama, A.no_absen, A.bulan, T.namaTakl, N.namatingkat , A.kelastakl, A.Hadir, A.alpha, A.izin, A.sakit  from mahasantri M natural join absen A natural join taklim T natural join tingakTaklim N where M.nim_mahasantri = A.nim_mhs and A.no_tingkattak = N.no_tingkattak and T.no_Takl = A.no_Takl and M.kode_mab ='" + ambilkodemabna(cm_mahad.getSelectedItem().toString()) + "' and A.bulan = '" + cm_bulan.getSelectedItem() + "' and A.nim_mhs like '%" + txt_nim.getText() + "%' and kelastakl like '%" + txt_kelas.getText() + "%' and A.no_Takl = '" + ambilidtaklim(cm_taklim.getSelectedItem().toString()) + "'");
+            ResultSet data = stmt.executeQuery("select M.nim_mahasantri, M.nama, A.no_absen, A.bulan, T.namaTakl, N.namatingkat , A.kelastakl, A.Hadir, A.alpha, A.izin, A.sakit, U.nama_mab from mahasantri M, absen A, taklim T, tingakTaklim N, mabna U where M.nim_mahasantri = A.nim_mhs and M.kode_mab = U.kode_mab and A.no_tingkattak = N.no_tingkattak and T.no_Takl = A.no_Takl and M.kode_mab ='" + ambilkodemabna(cm_mahad.getSelectedItem().toString()) + "' and A.bulan = '" + cm_bulan.getSelectedItem() + "' and A.nim_mhs like '%" + txt_nim.getText() + "%' and kelastakl like '%" + txt_kelas.getText() + "%' and A.no_Takl = '" + ambilidtaklim(cm_taklim.getSelectedItem().toString()) + "'");
 
             while (data.next()) {
-                Object[] obj = new Object[11];
+                Object[] obj = new Object[12];
                 obj[0] = data.getString("A.no_absen");
                 obj[1] = data.getString("M.nim_mahasantri");
                 obj[2] = data.getString("M.nama");
@@ -421,12 +474,12 @@ public class FormAbsensiAdmin extends javax.swing.JFrame {
                 obj[4] = data.getString("N.namatingkat");
                 obj[5] = data.getString("A.kelastakl");
                 obj[6] = data.getString("A.bulan");
-                obj[7] = data.getString("A.Hadir");
-                obj[8] = data.getString("A.alpha");
-                obj[9] = data.getString("A.izin");
-                obj[10] = data.getString("A.sakit");
-                
-                model();
+                obj[7] = data.getString("U.nama_mab");
+                obj[8] = data.getString("A.Hadir");
+                obj[9] = data.getString("A.alpha");
+                obj[10] = data.getString("A.izin");
+                obj[11] = data.getString("A.sakit");
+
                 model.addRow(obj);
 
             }
@@ -461,6 +514,11 @@ public class FormAbsensiAdmin extends javax.swing.JFrame {
         txt_nim.setText(null);
         txt_no.setText(null);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        saveCSV(tabel_absen);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -507,6 +565,7 @@ public class FormAbsensiAdmin extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

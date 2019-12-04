@@ -36,6 +36,7 @@ public class FormNilaiPendamping extends javax.swing.JFrame {
     public FormNilaiPendamping() {
         initComponents();
         lokasi();
+        getdata();
     }
 
     protected void lokasi() {
@@ -139,6 +140,37 @@ public class FormNilaiPendamping extends javax.swing.JFrame {
         model.addColumn("Kelas");
         model.addColumn("Nilai");
 
+    }
+    
+    public void getdata(){
+        try {
+            model();
+            Connection conn = (Connection) koneksi.koneksiDB();
+            Statement stmt = conn.createStatement();
+            ResultSet data = stmt.executeQuery("select N.no_nilai, M.nim_mahasantri, M.nama, N.jenis, T.namaTakl, U.namatingkat, N.kelastakl, N.nilai from nilai N natural join mahasantri M natural join taklim T natural join tingakTaklim U where N.no_Takl = T.no_Takl and N.no_tingkattakl = U.no_tingkattak and N.nim_mhs = M.nim_mahasantri and M.kode_mab ='" + ambilkodemabna(txt_mahad.getText()) + "'");
+
+            while (data.next()) {
+                Object[] obj = new Object[8];
+                obj[0] = data.getString("N.no_nilai");
+                obj[1] = data.getString("M.nim_mahasantri");
+                obj[2] = data.getString("M.nama");
+                obj[3] = data.getString("N.jenis");
+                obj[4] = data.getString("T.namaTakl");
+                obj[5] = data.getString("U.namatingkat");
+                obj[6] = data.getString("N.kelastakl");
+                obj[7] = data.getString("N.nilai");
+                
+                model();
+                model.addRow(obj);
+                
+                txt_id.setText(null);
+                txt_kelas.setText(null);
+                txt_nilai.setText(null);
+                txt_nim.setText(null);
+            }
+        } catch (SQLException | HeadlessException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -286,7 +318,7 @@ public class FormNilaiPendamping extends javax.swing.JFrame {
 
         jLabel3.setText("Kelas");
 
-        txt_id.setText("jLabel11");
+        txt_id.setText("0");
 
         jButton6.setText("Segarkan");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -401,7 +433,7 @@ public class FormNilaiPendamping extends javax.swing.JFrame {
             model();
             Connection conn = (Connection) koneksi.koneksiDB();
             Statement stmt = conn.createStatement();
-            ResultSet data = stmt.executeQuery("select N.no_nilai, M.nim_mahasantri, M.nama, N.jenis, T.namaTakl, U.namatingkat, N.kelastakl, N.nilai from nilai N natural join mahasantri M natural join taklim T natural join tingakTaklim U natural join where N.no_Takl = T.no_Takl and N.no_tingkattak = U.no_tingkattak and N.nim_mhs = M.nim_mahasantri and N.no_Takl = '"+ambilidtaklim(cm_taklim.getSelectedItem().toString())+"' and N.no_tingkattakl = '"+ambilidtingkatan(cm_tingkat.getSelectedItem().toString())+"' and M.kode_mab ='" + ambilkodemabna(txt_mahad.getText()) + "' and N.jenis = '"+cm_jenis.getSelectedItem().toString()+"' and N.nim_mhs = '"+txt_nim.getText()+"' and N.kelastakl ='"+txt_kelas.getText()+"'");
+            ResultSet data = stmt.executeQuery("select N.no_nilai, M.nim_mahasantri, M.nama, N.jenis, T.namaTakl, U.namatingkat, N.kelastakl, N.nilai from nilai N natural join mahasantri M natural join taklim T natural join tingakTaklim U where N.no_Takl = T.no_Takl and N.no_tingkattakl = U.no_tingkattak and N.nim_mhs = M.nim_mahasantri and N.no_Takl = '"+ambilidtaklim(cm_taklim.getSelectedItem().toString())+"' and N.no_tingkattakl = '"+ambilidtingkatan(cm_tingkat.getSelectedItem().toString())+"' and M.kode_mab ='" + ambilkodemabna(txt_mahad.getText()) + "' and N.jenis = '"+cm_jenis.getSelectedItem().toString()+"' and N.nim_mhs like '%"+txt_nim.getText()+"%' and N.kelastakl ='"+txt_kelas.getText()+"'");
 
             while (data.next()) {
                 Object[] obj = new Object[8];
@@ -518,6 +550,7 @@ public class FormNilaiPendamping extends javax.swing.JFrame {
         txt_kelas.setText(null);
         txt_nilai.setText(null);
         txt_nim.setText(null);
+        getdata();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
