@@ -37,6 +37,7 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
         initComponents();
         lokasi();
         model();
+        getdata();
     }
 
     protected void lokasi() {
@@ -44,6 +45,7 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
         int y = layar.height / 2 - this.getSize().height / 2;
         setLocation(x, y);
         awal();
+        
     }
 
     public void awal() {
@@ -67,9 +69,7 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
         } catch (SQLException | HeadlessException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        
-        
-        
+
     }
 
     public String ambilkodemabna(String namamabna) {
@@ -88,7 +88,7 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
         }
         return null;
     }
-    
+
     public String ambiliddevisi(String namadev) {
         try {
             PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
@@ -116,7 +116,7 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
         model.addColumn("Devisi");
         model.addColumn("Password");
 
-        getdata();
+//        getdata();
     }
 
     public void getdata() {
@@ -248,6 +248,11 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
         });
 
         jButton5.setText("Refres");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         cm_mabna.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -371,6 +376,25 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        try {
+            model();
+            Connection conn = (Connection) koneksi.koneksiDB();
+            Statement stmt = conn.createStatement();
+            ResultSet data = stmt.executeQuery("select P.userid, P.nama, M.nama_mab, D.nama_devisi, P.password from acount_musyrifah P, mabna M , devisi D where P.kode_mab = M.kode_mab and P.userid like '%"+userid_txt.getText()+"%' and P.nama like '%"+nama_txt.getText()+"%' and M.nama_mab = '"+cm_mabna.getSelectedItem().toString()+"' and D.nama_devisi = '"+cm_devisi.getSelectedItem().toString()+"'");
+
+            while (data.next()) {
+                Object[] obj = new Object[5];
+                obj[0] = data.getString("P.userid");
+                obj[1] = data.getString("P.nama");
+                obj[2] = data.getString("M.nama_mab");
+                obj[3] = data.getString("D.nama_devisi");
+                obj[4] = data.getString("P.password");
+                model.addRow(obj);
+
+            }
+        } catch (SQLException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -486,6 +510,16 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_tabel_pendampingMouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        model();
+        userid_txt.setText(null);
+        nama_txt.setText(null);
+        pass_txt.setText(null);
+        awal();
+        getdata();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments

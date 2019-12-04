@@ -9,10 +9,16 @@ import com.mysql.jdbc.Connection;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.koneksi;
 
@@ -34,26 +40,19 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         model();
         awal();
+        getdata();
     }
     
         public void awal(){
         try {
             cm_mahad.removeAllItems();
-            cm_tingkat.removeAllItems();
             Connection conn = (Connection) koneksi.koneksiDB();
             Statement stmt = conn.createStatement();
-            Statement stmt1 = conn.createStatement();
             ResultSet mahad = stmt.executeQuery("select nama_mab from mabna");
-            ResultSet tingkat = stmt1.executeQuery("select namatingkat from tingakTaklim");
 
             while (mahad.next()) {
                 String obj = mahad.getString("nama_mab");
                 cm_mahad.addItem(obj);
-
-            }
-            while (tingkat.next()) {
-                String obj = tingkat.getString("namatingkat");
-                cm_tingkat.addItem(obj);
 
             }
         } catch (SQLException | HeadlessException e) {
@@ -74,7 +73,7 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
         model.addColumn("Surah");
         model.addColumn("Ayat");
 
-        getdata();
+//        getdata();
     }
 
     public void getdata() {
@@ -84,15 +83,15 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
             ResultSet data = stmt.executeQuery("select M.nim_mahasantri, M.nama, N.nama_mab, T.no_tahsin, T.bulan, T.juz, T.surat, T.ayat from mahasantri M, mabna N, tahsin T  where M.kode_mab = N.kode_mab and M.nim_mahasantri = T.nim_mhs");
 
             while (data.next()) {
-                Object[] obj = new Object[5];
+                Object[] obj = new Object[8];
                 obj[0] = data.getString("T.no_tahsin");
                 obj[1] = data.getString("M.nim_mahasantri");
                 obj[2] = data.getString("M.nama");
                 obj[3] = data.getString("N.nama_mab");
                 obj[4] = data.getString("T.bulan");
-                obj[4] = data.getString("T.juz");
-                obj[4] = data.getString("T.surat");
-                obj[4] = data.getString("T.ayat");
+                obj[5] = data.getString("T.juz");
+                obj[6] = data.getString("T.surat");
+                obj[7] = data.getString("T.ayat");
                 model.addRow(obj);
 
             }
@@ -100,7 +99,39 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
+    public static void saveCSV(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        JFileChooser chooser = new JFileChooser();
+        int state = chooser.showSaveDialog(null);
+        File file = chooser.getSelectedFile();
+        if (file != null && state == JFileChooser.APPROVE_OPTION) {
+            try {
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+                PrintWriter fileWriter = new PrintWriter(bufferedWriter);
+                bufferedWriter.write("NIM, Nama, Fakultas, Jurusan, Mabna, Kamar, Lantai \r\n");
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    for (int j = 0; j < model.getColumnCount(); j++) {
+                        Object o = model.getValueAt(i, j);
+                        String s = String.valueOf(o);
+//                        System.out.print(s);
+                        bufferedWriter.write(s);
+
+                        if (j < model.getColumnCount() - 1) {
+                            bufferedWriter.write(",");
+                        } else {
+                            bufferedWriter.write("\r\n");
+                        }
+                    }
+                }
+                
+                fileWriter.close();
+                JOptionPane.showMessageDialog(null, "Success");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Failure");
+            }
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -114,16 +145,16 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabel_tahsin = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        cm_tingkat = new javax.swing.JComboBox<>();
         cm_mahad = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txt_nim = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cm_bulan = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -173,11 +204,7 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabel_tahsin);
 
-        jLabel5.setText("Tingkat");
-
         jLabel9.setText("Mahad");
-
-        cm_tingkat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         cm_mahad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -187,9 +214,28 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
 
         jLabel3.setText("Bulan");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember" }));
+        cm_bulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember" }));
 
         jButton1.setText("Cari");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Convert to CSV");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Refres");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -203,19 +249,22 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
                                 .addGap(97, 97, 97)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
-                                    .addComponent(jLabel5)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel9))
-                                .addGap(43, 43, 43))
+                                .addGap(48, 48, 48))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cm_tingkat, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_nim, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cm_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton4))
                             .addComponent(cm_mahad, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
@@ -233,23 +282,21 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(cm_tingkat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_nim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cm_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(cm_mahad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(61, 61, 61)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
@@ -264,6 +311,44 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
         n.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            model();
+            Connection conn = (Connection) koneksi.koneksiDB();
+            Statement stmt = conn.createStatement();
+            ResultSet data = stmt.executeQuery("select M.nim_mahasantri, M.nama, N.nama_mab, T.no_tahsin, T.bulan, T.juz, T.surat, T.ayat from mahasantri M, mabna N, tahsin T  where M.kode_mab = N.kode_mab and M.nim_mahasantri = T.nim_mhs and M.nim_mahasantri like '%"+txt_nim.getText()+"%' and T.bulan = '"+cm_bulan.getSelectedItem().toString()+"' and N.nama_mab = '"+cm_mahad.getSelectedItem().toString()+"'");
+
+            while (data.next()) {
+                Object[] obj = new Object[8];
+                obj[0] = data.getString("T.no_tahsin");
+                obj[1] = data.getString("M.nim_mahasantri");
+                obj[2] = data.getString("M.nama");
+                obj[3] = data.getString("N.nama_mab");
+                obj[4] = data.getString("T.bulan");
+                obj[5] = data.getString("T.juz");
+                obj[6] = data.getString("T.surat");
+                obj[7] = data.getString("T.ayat");
+                model.addRow(obj);
+
+            }
+        } catch (SQLException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        saveCSV(tabel_tahsin);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        awal();
+        model();
+        getdata();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -302,18 +387,18 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cm_bulan;
     private javax.swing.JComboBox<String> cm_mahad;
-    private javax.swing.JComboBox<String> cm_tingkat;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tabel_tahsin;
+    private javax.swing.JTextField txt_nim;
     // End of variables declaration//GEN-END:variables
 }

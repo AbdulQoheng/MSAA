@@ -269,6 +269,11 @@ public class FromUniversitas extends javax.swing.JFrame {
         });
 
         jButton7.setText("Kembali");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Segarkan");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -565,6 +570,13 @@ public class FromUniversitas extends javax.swing.JFrame {
         // TODO add your handling code here:
         awal();
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        FormAdmin n = new FormAdmin();
+        n.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments

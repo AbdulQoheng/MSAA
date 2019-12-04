@@ -73,6 +73,7 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
         }
 
         model();
+        getdata();
         txt_nim.setText(null);
         txt_nama.setText(null);
         txt_lantai.setText(null);
@@ -159,7 +160,7 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
         model.addColumn("Kamar");
         model.addColumn("Lantai");
 
-        getdata();
+//        getdata();
     }
 
     public void getdata() {
@@ -455,7 +456,28 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        try {
+            model();
+            Connection conn = (Connection) koneksi.koneksiDB();
+            Statement stmt = conn.createStatement();
+            ResultSet data = stmt.executeQuery("select M.nim_mahasantri, M.nama, F.nama_fak, J.nama_jur, J.kode_fak , N.nama_mab, M.kamar, M.lantai from mahasantri M , fakultas F, jurusan J, mabna N where M.kode_jur = J.kode_jur and F.kode_fak = J.kode_fak and M.kode_mab = N.kode_mab and M.nim_mahasantri like '%"+txt_nim.getText()+"%' and M.nama like '%"+txt_nama.getText()+"%' and J.nama_jur = '"+cm_jurusan.getSelectedItem().toString()+"' and N.nama_mab = '"+cm_mabna.getSelectedItem().toString()+"'");
 
+            while (data.next()) {
+                Object[] obj = new Object[7];
+                obj[0] = data.getString("M.nim_mahasantri");
+                obj[1] = data.getString("M.nama");
+                obj[2] = data.getString("F.nama_fak");
+                obj[3] = data.getString("J.nama_jur");
+                obj[4] = data.getString("N.nama_mab");
+                obj[5] = data.getString("M.kamar");
+                obj[6] = data.getString("M.lantai");
+
+                model.addRow(obj);
+
+            }
+        } catch (SQLException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
