@@ -27,6 +27,8 @@ public class FormAdmin extends javax.swing.JFrame {
     public FormAdmin() {
         initComponents();
         lokasi();
+        setTitle("MSAA Application");
+        setIcon();
     }
 
     protected void lokasi() {
@@ -44,211 +46,163 @@ public class FormAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        mabna = new javax.swing.JLabel();
+        pendamping = new javax.swing.JLabel();
+        mahasantri = new javax.swing.JLabel();
+        nilai = new javax.swing.JLabel();
+        iqob1 = new javax.swing.JLabel();
+        iqob = new javax.swing.JLabel();
+        absensi = new javax.swing.JLabel();
+        tahsin = new javax.swing.JLabel();
+        mahrum = new javax.swing.JLabel();
+        logout = new javax.swing.JLabel();
+        kampus = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("MENU");
-
-        jButton1.setText("Pendamping");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        mabna.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mabnaMouseClicked(evt);
             }
         });
+        getContentPane().add(mabna, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 150, 230, 60));
 
-        jButton2.setText("Absensi");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        pendamping.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pendampingMouseClicked(evt);
             }
         });
+        getContentPane().add(pendamping, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 150, 230, 60));
 
-        jButton3.setText("Nilai");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+        mahasantri.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mahasantriMouseClicked(evt);
             }
         });
+        getContentPane().add(mahasantri, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 230, 60));
 
-        jButton4.setText("Tahsin");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+        nilai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nilaiMouseClicked(evt);
             }
         });
+        getContentPane().add(nilai, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, 230, 60));
 
-        jButton5.setText("Iqob");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+        iqob1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iqob1MouseClicked(evt);
             }
         });
+        getContentPane().add(iqob1, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 270, 230, 60));
 
-        jButton6.setText("Mahasantri");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+        iqob.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iqobMouseClicked(evt);
             }
         });
+        getContentPane().add(iqob, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 270, 230, 60));
 
-        jButton9.setText("Mahrum");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+        absensi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                absensiMouseClicked(evt);
             }
         });
+        getContentPane().add(absensi, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 400, 230, 60));
 
-        jButton10.setText("Log Out");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+        tahsin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tahsinMouseClicked(evt);
             }
         });
+        getContentPane().add(tahsin, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 400, 230, 60));
 
-        jButton7.setText("Mabna");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+        mahrum.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mahrumMouseClicked(evt);
             }
         });
+        getContentPane().add(mahrum, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 400, 230, 60));
 
-        jButton8.setText("Kampus");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+        logout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutMouseClicked(evt);
             }
         });
+        getContentPane().add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 500, 150, 60));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(207, 207, 207)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(102, 102, 102)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 111, Short.MAX_VALUE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(59, 59, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7)
-                    .addComponent(jButton8))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
-                    .addComponent(jButton1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton9)
-                    .addComponent(jButton10))
-                .addGap(38, 38, 38))
-        );
+        kampus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                kampusMouseClicked(evt);
+            }
+        });
+        getContentPane().add(kampus, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 230, 60));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/3menuu.jpg"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1170, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        new FormIqobAdmin().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void kampusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kampusMouseClicked
+        new FromUniversitas().setVisible(true);
+        this.setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_kampusMouseClicked
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-        new FormIqobAdmin().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton9ActionPerformed
+    private void mabnaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mabnaMouseClicked
+        new FormMabna().setVisible(true);
+        this.setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_mabnaMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+    private void pendampingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pendampingMouseClicked
         new FormPendampingAdmin().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        this.setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_pendampingMouseClicked
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+    private void mahasantriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mahasantriMouseClicked
         new FormMahasantriAdmin().setVisible(true);
+        this.setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_mahasantriMouseClicked
+
+    private void nilaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nilaiMouseClicked
+      new FormNilaiAdmin().setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        new FormAbsensiAdmin().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_nilaiMouseClicked
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        new FormNilaiAdmin().setVisible(true);
-        this.setVisible(false);
+    private void iqobMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iqobMouseClicked
+        new FormIqobAdmin().setVisible(true);
+        this.setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_iqobMouseClicked
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void absensiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_absensiMouseClicked
+    new FormAbsensiAdmin().setVisible(true);
+        this.setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_absensiMouseClicked
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        new FormTahsinAdmin().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void tahsinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tahsinMouseClicked
+       new FormTahsinAdmin().setVisible(true);
+        this.setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_tahsinMouseClicked
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-        new login().setVisible(true);
+    private void mahrumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mahrumMouseClicked
+            new FormDevisiAdmin().setVisible(true);
+        this.setVisible(false);     // TODO add your handling code here:
+    }//GEN-LAST:event_mahrumMouseClicked
+
+    private void logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutMouseClicked
+  new login().setVisible(true);
         main.setUser("");
         main.setSebagai("");
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton10ActionPerformed
+        this.setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_logoutMouseClicked
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void iqob1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iqob1MouseClicked
         // TODO add your handling code here:
-        new FormMabna().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-        new FromUniversitas().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton8ActionPerformed
+          new FormTaklim().setVisible(true);
+        this.setVisible(false);   
+    }//GEN-LAST:event_iqob1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -288,16 +242,22 @@ public class FormAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel absensi;
+    private javax.swing.JLabel iqob;
+    private javax.swing.JLabel iqob1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel kampus;
+    private javax.swing.JLabel logout;
+    private javax.swing.JLabel mabna;
+    private javax.swing.JLabel mahasantri;
+    private javax.swing.JLabel mahrum;
+    private javax.swing.JLabel nilai;
+    private javax.swing.JLabel pendamping;
+    private javax.swing.JLabel tahsin;
     // End of variables declaration//GEN-END:variables
+
+    private void setIcon() {
+     
+    
+    }
 }

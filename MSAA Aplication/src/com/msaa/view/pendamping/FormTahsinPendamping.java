@@ -42,8 +42,11 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
     public FormTahsinPendamping() {
         initComponents();
         lokasi();
+        model();
         getdata();
         btn_importfile.setEnabled(true);
+
+        setTitle("MSAA Application"); 
     }
 
     protected void lokasi() {
@@ -74,15 +77,14 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
             ResultSet data = stmt.executeQuery("select T.no_tahsin, T.bulan, T.juz, T.surat, T.ayat, T.nim_mhs, M.nama from tahsin T natural join mahasantri M natural join mabna N where T.nim_mhs = M.nim_mahasantri and M.kode_mab = N.kode_mab and N.nama_mab = '"+txt_mabna.getText()+"'");
 
             while (data.next()) {
-                Object[] obj = new Object[8];
+                Object[] obj = new Object[7];
                 obj[0] = data.getString("T.no_tahsin");
                 obj[1] = data.getString("T.nim_mhs");
                 obj[2] = data.getString("M.nama");
                 obj[3] = data.getString("T.bulan");
                 obj[4] = data.getString("T.juz");
                 obj[5] = data.getString("T.surat");
-                obj[6] = data.getString("T.surat");
-                obj[7] = data.getString("T.ayat");
+                obj[6] = data.getString("T.ayat");
 
                 model.addRow(obj);
 
@@ -121,49 +123,89 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
         txt_mabna = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        txt_id = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         btn_importfile = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txt_id = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jLabel4.setText("NIM");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 80, -1, -1));
 
+        txt_nim.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        getContentPane().add(txt_nim, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 80, 183, -1));
+
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jLabel6.setText("Juz/Surat/Ayat");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 160, -1, -1));
 
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel1.setText("Tahsin");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 10, -1, -1));
 
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jButton3.setText("Edit");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 200, 95, -1));
 
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jLabel3.setText("Bulan");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, -1, -1));
 
+        cm_bulan.setBackground(new java.awt.Color(255, 255, 255));
+        cm_bulan.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         cm_bulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember" }));
+        getContentPane().add(cm_bulan, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, 137, -1));
 
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jButton1.setText("Cari");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 90, 116, -1));
 
+        jButton4.setBackground(new java.awt.Color(255, 255, 255));
+        jButton4.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jButton4.setText("Hapus");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 200, 95, -1));
 
+        txt_juz.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        getContentPane().add(txt_juz, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 160, 57, -1));
+
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jButton2.setText("Kembali");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 200, 95, -1));
+
+        txt_surah.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        getContentPane().add(txt_surah, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 160, 57, -1));
+
+        txt_ayat.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        getContentPane().add(txt_ayat, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 160, 57, -1));
 
         tabel_tahsin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -209,141 +251,65 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabel_tahsin);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 232, 1110, 330));
+
+        jLabel9.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel9.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jLabel9.setText("Mahad");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 140, -1, -1));
 
+        txt_mabna.setBackground(new java.awt.Color(255, 255, 255));
+        txt_mabna.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         txt_mabna.setText("jLabel2");
+        getContentPane().add(txt_mabna, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 140, -1, -1));
 
+        jButton6.setBackground(new java.awt.Color(255, 255, 255));
+        jButton6.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jButton6.setText("Segarkan");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 60, 116, -1));
 
+        jButton7.setBackground(new java.awt.Color(255, 255, 255));
+        jButton7.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jButton7.setText("Simpan");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 200, 95, -1));
 
-        txt_id.setText("0");
-
-        jButton5.setText("Pilih file csv");
+        jButton5.setBackground(new java.awt.Color(255, 255, 255));
+        jButton5.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jButton5.setText("Pilih File CSV");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 120, 120, -1));
 
-        btn_importfile.setText("import file");
+        btn_importfile.setBackground(new java.awt.Color(255, 255, 255));
+        btn_importfile.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        btn_importfile.setText("Import File");
         btn_importfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_importfileActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_importfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 150, 116, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(97, 97, 97)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel6)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_nim, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cm_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_mabna)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txt_juz, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txt_surah, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txt_ayat, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(31, 31, 31)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_importfile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(376, 376, 376)
-                        .addComponent(jLabel1)))
-                .addContainerGap(31, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txt_id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txt_nim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(cm_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(txt_mabna)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton5)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel6)
-                                    .addComponent(txt_juz, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_surah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_ayat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_importfile)))))
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton7))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
-        );
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/10tahsin.jpg"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1170, 600));
+
+        txt_id.setBackground(new java.awt.Color(255, 255, 255));
+        txt_id.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        txt_id.setText("0");
+        getContentPane().add(txt_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 30, 102, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -358,6 +324,7 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         model();
+        getdata();
         txt_id.setText(null);
         txt_ayat.setText(null);
         txt_juz.setText(null);
@@ -404,15 +371,14 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
             ResultSet data = stmt.executeQuery("select T.no_tahsin, T.bulan, T.juz, T.surat, T.ayat, T.nim_mhs, M.nama from tahsin T natural join mahasantri M natural join mabna N where T.nim_mhs = M.nim_mahasantri and M.kode_mab = N.kode_mab and N.nama_mab = '"+txt_mabna.getText()+"' and T.nim_mhs like '%" + txt_nim.getText() + "%' and T.bulan = '" + cm_bulan.getSelectedItem().toString() + "'");
 
             while (data.next()) {
-                Object[] obj = new Object[8];
+                Object[] obj = new Object[7];
                 obj[0] = data.getString("T.no_tahsin");
                 obj[1] = data.getString("T.nim_mhs");
                 obj[2] = data.getString("M.nama");
                 obj[3] = data.getString("T.bulan");
                 obj[4] = data.getString("T.juz");
                 obj[5] = data.getString("T.surat");
-                obj[6] = data.getString("T.surat");
-                obj[7] = data.getString("T.ayat");
+                obj[6] = data.getString("T.ayat");
 
                 model.addRow(obj);
 
@@ -451,14 +417,14 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
 
         try {
             PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
-                    "update nilai set bulan = ? ,juz = ? ,surat = ? ,ayat = ?, nim_mhs = ? where no_tahsin = ?");
+                    "update tahsin set bulan = ? ,juz = ? ,surat = ? ,ayat = ?, nim_mhs = ? where no_tahsin = ?");
 
             statement.setString(1, cm_bulan.getSelectedItem().toString());
             statement.setString(2, txt_juz.getText());
             statement.setString(3, txt_surah.getText());
             statement.setString(4, txt_ayat.getText());
-            statement.setString(6, txt_nim.getText());
-            statement.setString(7, txt_id.getText());
+            statement.setString(5, txt_nim.getText());
+            statement.setString(6, txt_id.getText());
             statement.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Data Berhasil di Ubah");
@@ -592,6 +558,7 @@ public class FormTahsinPendamping extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;

@@ -38,6 +38,8 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
         lokasi();
         model();
         getdata();
+    
+        setTitle("MSAA Application");
     }
 
     protected void lokasi() {
@@ -45,11 +47,13 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
         int y = layar.height / 2 - this.getSize().height / 2;
         setLocation(x, y);
         awal();
-        
+
     }
 
     public void awal() {
         try {
+            cm_devisi.removeAllItems();
+            cm_mabna.removeAllItems();
             Connection conn = (Connection) koneksi.koneksiDB();
             Statement stmt = conn.createStatement();
             Statement stmt1 = conn.createStatement();
@@ -123,7 +127,7 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
         try {
             Connection conn = (Connection) koneksi.koneksiDB();
             Statement stmt = conn.createStatement();
-            ResultSet data = stmt.executeQuery("select P.userid, P.nama, M.nama_mab, D.nama_devisi, P.password from acount_musyrifah P, mabna M , devisi D where P.kode_mab = M.kode_mab");
+            ResultSet data = stmt.executeQuery("select P.userid, P.nama, M.nama_mab, D.nama_devisi, P.password from acount_musyrifah P, mabna M , devisi D where P.kode_mab = M.kode_mab and D.id_devisi = P.id_devisi");
 
             while (data.next()) {
                 Object[] obj = new Object[5];
@@ -150,7 +154,6 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -169,35 +172,56 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         pass_txt = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setText("Data Pendamping");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(506, 18, -1, -1));
 
-        jLabel2.setText("Ma'had");
+        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel3.setText("User ID");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, -1, -1));
 
-        jLabel3.setText("user ID");
+        jLabel4.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel4.setText("Nama");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 130, -1, -1));
 
-        jLabel4.setText("NAMA");
+        jLabel5.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel5.setText("Mabna");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, -1, -1));
 
-        jLabel5.setText("MABNA");
-
+        userid_txt.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         userid_txt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userid_txtActionPerformed(evt);
             }
         });
+        getContentPane().add(userid_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(442, 85, 293, -1));
 
+        nama_txt.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        getContentPane().add(nama_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(442, 122, 293, -1));
+
+        jLabel6.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jLabel6.setText("Devisi");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 210, -1, -1));
 
-        jLabel9.setText("PASSWORD");
+        jLabel9.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel9.setText("Password");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 250, -1, -1));
 
-        jButton2.setText("CARI");
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jButton2.setText("Cari");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(753, 82, 140, -1));
 
         tabel_pendamping.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -233,139 +257,76 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabel_pendamping);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 340, 890, 200));
+
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jButton3.setText("Edit");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(753, 162, 144, -1));
 
+        jButton4.setBackground(new java.awt.Color(255, 255, 255));
+        jButton4.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jButton4.setText("Hapus");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(753, 199, 144, -1));
 
-        jButton5.setText("Refres");
+        jButton5.setBackground(new java.awt.Color(255, 255, 255));
+        jButton5.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jButton5.setText("Refresh");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(753, 242, 144, -1));
 
+        cm_mabna.setBackground(new java.awt.Color(255, 255, 255));
+        cm_mabna.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         cm_mabna.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cm_mabnaActionPerformed(evt);
             }
         });
+        getContentPane().add(cm_mabna, new org.netbeans.lib.awtextra.AbsoluteConstraints(442, 162, 200, -1));
 
+        cm_devisi.setBackground(new java.awt.Color(255, 255, 255));
+        cm_devisi.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        getContentPane().add(cm_devisi, new org.netbeans.lib.awtextra.AbsoluteConstraints(442, 199, 100, -1));
+
+        jButton6.setBackground(new java.awt.Color(255, 255, 255));
+        jButton6.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jButton6.setText("Kembali");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(753, 279, 144, -1));
 
+        jButton7.setBackground(new java.awt.Color(255, 255, 255));
+        jButton7.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jButton7.setText("Simpan");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(753, 119, 144, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 948, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(312, 312, 312)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel9))
-                        .addGap(50, 50, 50)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(nama_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(userid_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(cm_devisi, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(211, 211, 211)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cm_mabna, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(pass_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE)))))))
-                .addContainerGap(61, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(486, 486, 486))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(450, 450, 450))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(userid_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(nama_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(cm_mabna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(cm_devisi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jLabel9)
-                    .addComponent(pass_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6)
-                .addGap(61, 61, 61)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
+        pass_txt.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        getContentPane().add(pass_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(442, 245, 293, -1));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/9pendamping.jpg"))); // NOI18N
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1170, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -380,7 +341,7 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
             model();
             Connection conn = (Connection) koneksi.koneksiDB();
             Statement stmt = conn.createStatement();
-            ResultSet data = stmt.executeQuery("select P.userid, P.nama, M.nama_mab, D.nama_devisi, P.password from acount_musyrifah P, mabna M , devisi D where P.kode_mab = M.kode_mab and P.userid like '%"+userid_txt.getText()+"%' and P.nama like '%"+nama_txt.getText()+"%' and M.nama_mab = '"+cm_mabna.getSelectedItem().toString()+"' and D.nama_devisi = '"+cm_devisi.getSelectedItem().toString()+"'");
+            ResultSet data = stmt.executeQuery("select P.userid, P.nama, M.nama_mab, D.nama_devisi, P.password from acount_musyrifah P natural join mabna M natural join devisi D where P.kode_mab = M.kode_mab and D.id_devisi = P.id_devisi and P.userid like '%" + userid_txt.getText() + "%' and P.nama like '%" + nama_txt.getText() + "%' and M.nama_mab = '" + cm_mabna.getSelectedItem().toString() + "' and D.nama_devisi = '" + cm_devisi.getSelectedItem().toString() + "'");
 
             while (data.next()) {
                 Object[] obj = new Object[5];
@@ -436,6 +397,12 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
                 statement.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Data Baru telah di tambahkan");
                 model();
+                model();
+                userid_txt.setText(null);
+                nama_txt.setText(null);
+                pass_txt.setText(null);
+                awal();
+                getdata();
 //                komponen("segarkan");
             }
 
@@ -449,16 +416,18 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
-                    "update acount_musyrifah set kode_mab = ? ,id_devisi = ? ,password = ? where userid = ?");
+                    "update acount_musyrifah set nama = ?, kode_mab = ? ,id_devisi = ? ,password = ? where userid = ?");
 
-            statement.setString(1, ambilkodemabna(cm_mabna.getSelectedItem().toString()));
-            statement.setString(2, ambiliddevisi(cm_devisi.getSelectedItem().toString()));
-            statement.setString(3, pass_txt.getText());
-            statement.setString(4, userid_txt.getText());
+            statement.setString(1, nama_txt.getText());
+            statement.setString(2, ambilkodemabna(cm_mabna.getSelectedItem().toString()));
+            statement.setString(3, ambiliddevisi(cm_devisi.getSelectedItem().toString()));
+            statement.setString(4, pass_txt.getText());
+            statement.setString(5, userid_txt.getText());
             statement.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Data berhasil di update");
             model();
+            getdata();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -569,11 +538,11 @@ public class FormPendampingAdmin extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nama_txt;

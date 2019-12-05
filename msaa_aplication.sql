@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 04, 2019 at 01:14 PM
+-- Generation Time: Dec 05, 2019 at 05:44 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -46,13 +46,10 @@ CREATE TABLE `absen` (
 --
 
 INSERT INTO `absen` (`no_absen`, `bulan`, `Hadir`, `alpha`, `izin`, `sakit`, `kelastakl`, `no_tingkattak`, `no_Takl`, `nim_mhs`) VALUES
-(3, 'Februari', 25, 4, 4, 2, 'A', 1, 1, 122),
-(5, 'Maret', 29, 1, 0, 0, 'A', 1, 1, 122),
-(6, 'April', 27, 1, 2, 0, 'A', 1, 1, 122),
-(7, 'Mei', 26, 1, 3, 0, 'A', 1, 1, 122),
-(8, 'Juni', 28, 1, 1, 0, 'A', 1, 1, 122),
-(9, 'Juni', 28, 1, 1, 0, 'A', 1, 1, 122),
-(10, 'Juli', 14, 15, 1, 0, 'A', 1, 1, 122);
+(13, 'Desember', 10, 0, 1, 0, 'A', 3, 2, 32),
+(14, 'Desember', 10, 1, 0, 1, 'B', 3, 3, 32),
+(15, 'Desember', 10, 0, 0, 0, 'A', 11, 5, 32),
+(16, 'Desember', 10, 0, 0, 0, 'B', 4, 6, 32);
 
 -- --------------------------------------------------------
 
@@ -73,10 +70,12 @@ CREATE TABLE `acount_musyrifah` (
 --
 
 INSERT INTO `acount_musyrifah` (`userid`, `nama`, `kode_mab`, `id_devisi`, `password`) VALUES
-('1234', 'qoheng', 'mba1', 2, 'jenengku'),
-('123456', 'ihhiiiiii', 'mba1', 2, 'alksdjflk'),
-('1234565', 'lkjhgf', 'mba3', 2, 'lkjhgfd'),
-('18650051', 'qohar', 'mba3', 2, 'Ubudiah');
+('18650048', 'ANNISA RIZKIANA PUTRI', 'MB8', 6, 'ANNISA'),
+('18650049', 'IKHWATA ANDY PRATAMA', 'MB7', 3, 'IKHWATA'),
+('18650050', 'NAILA NAHDIYAH', 'MB9', 6, 'NIA'),
+('18650051', 'ABD. QOHAR AGUS MAULANA', 'MB1', 5, 'jenengku'),
+('18650053', 'RIZKI FITRIANI', 'MB10', 3, 'RIZKI'),
+('18650082', 'NISA KHOLIFATUL UMMAH', 'MB11', 8, 'NISA');
 
 -- --------------------------------------------------------
 
@@ -112,7 +111,13 @@ CREATE TABLE `devisi` (
 --
 
 INSERT INTO `devisi` (`id_devisi`, `nama_devisi`) VALUES
-(2, 'Ubudiah');
+(3, 'KEAMANAN'),
+(4, 'TAKLIM QURAN'),
+(5, 'TAKLIM AFKAR'),
+(6, 'KESANTRIAN'),
+(7, 'K3O'),
+(8, 'TAKLIM BAHASA'),
+(13, 'UBUDIYAH');
 
 -- --------------------------------------------------------
 
@@ -130,9 +135,13 @@ CREATE TABLE `fakultas` (
 --
 
 INSERT INTO `fakultas` (`kode_fak`, `nama_fak`) VALUES
-('Fak1', 'EKONOMI'),
-('fak2', 'SAINTEK'),
-('hhgf', 'PSIKOLOG');
+('F1', 'SAINTEK'),
+('F2', 'TARBIYAH'),
+('F3', 'PSIKOLOGI'),
+('F4', 'KEDOKTERAN'),
+('F5', 'SYARIAH'),
+('F6', 'EKONOMI'),
+('F7', 'HUMANIORA');
 
 -- --------------------------------------------------------
 
@@ -151,7 +160,14 @@ CREATE TABLE `jurusan` (
 --
 
 INSERT INTO `jurusan` (`kode_jur`, `nama_jur`, `kode_fak`) VALUES
-('123', 'TI', 'fak2');
+('11', 'PSIKOLOGI', 'F3'),
+('81', 'BIOLOGI', 'F1'),
+('82', 'FISIKA', 'F1'),
+('83', 'KIMIA', 'F1'),
+('84', 'MATEMATIKA', 'F1'),
+('86', 'TEKNIK INFORMATIKA', 'F1'),
+('87', 'TEKNIK ARSITEKTUR', 'F1'),
+('88', 'PERPUSTAKAAN', 'F1');
 
 -- --------------------------------------------------------
 
@@ -169,8 +185,18 @@ CREATE TABLE `mabna` (
 --
 
 INSERT INTO `mabna` (`kode_mab`, `nama_mab`) VALUES
-('mba1', 'ghazali'),
-('mba3', 'kholdun');
+('MB1', 'AL-GHAZALI'),
+('MB10', 'KHADIJAH AL-KUBRA'),
+('MB11', 'ASMA BIN ABI BAKAR'),
+('MB12', 'UMMU SALAMAH'),
+('MB2', 'IBNU KHALDUN'),
+('MB3', 'AL-MUHASIBI'),
+('MB4', 'IBNU RUSYD'),
+('MB5', 'AL-FAROBY'),
+('MB6', 'IBNU SINA'),
+('MB7', 'GTA'),
+('MB8', 'BTQ'),
+('MB9', 'FATHIMAH AZ-ZAHRA');
 
 -- --------------------------------------------------------
 
@@ -192,21 +218,14 @@ CREATE TABLE `mahasantri` (
 --
 
 INSERT INTO `mahasantri` (`nim_mahasantri`, `nama`, `kode_jur`, `kode_mab`, `lantai`, `kamar`) VALUES
-(13, 'asdfa', '123', 'mba1', 3, 12),
-(14, 'jyhtgr', '123', 'mba3', 2, 20),
-(15, 'asfd', '123', 'mba3', 2, 12),
-(16, 'asdfa', '123', 'mba3', 1, 32),
-(17, 'qwte', '123', 'mba3', 2, 16),
-(18, 'hwgra', '123', 'mba3', 2, 17),
-(19, 'jyhtgr', '123', 'mba3', 1, 15),
-(20, '5wyea', '123', 'mba3', 2, 21),
-(21, 'jeth', '123', 'mba3', 4, 20),
-(22, 'ertg', '123', 'mba3', 2, 12),
-(122, 'erfgh', '123', 'mba1', 2, 23),
-(324, 'fngbdfv', '123', 'mba3', 3, 14),
-(666, 'werth', '123', NULL, 2, 23),
-(1111, 'wergh', '123', 'mba3', 2, 24),
-(1234, 'iyowes', '123', 'mba1', 3, 17);
+(32, 'AULIA', '87', 'MB10', 12, 2),
+(33, 'MALARANGING', '83', 'MB1', 17, 1),
+(34, 'ILHAM', '82', 'MB1', 17, 1),
+(47, 'ADAM', '81', 'MB1', 1, 17),
+(48, 'ANNISA', '87', 'MB9', 2, 33),
+(49, 'ANDY', '83', 'MB1', 1, 17),
+(54, 'QOHAR', '86', 'MB1', 1, 2),
+(55, 'AGUS', '81', 'MB1', 3, 4);
 
 -- --------------------------------------------------------
 
@@ -229,8 +248,8 @@ CREATE TABLE `nilai` (
 --
 
 INSERT INTO `nilai` (`no_nilai`, `jenis`, `nilai`, `no_Takl`, `no_tingkattakl`, `kelastakl`, `nim_mhs`) VALUES
-(1, 'UTS', 80, 1, 1, 'A', 122),
-(2, 'UAS', 70, 1, 1, 'A', 122);
+(9, 'UTS', 75, 2, 3, 'A', 32),
+(10, 'UAS', 95, 2, 3, 'A', 32);
 
 -- --------------------------------------------------------
 
@@ -252,8 +271,10 @@ CREATE TABLE `tahsin` (
 --
 
 INSERT INTO `tahsin` (`no_tahsin`, `bulan`, `juz`, `surat`, `ayat`, `nim_mhs`) VALUES
-(1, 'Januari', 2, 12, 1, 122),
-(2, 'Februari', 5, 12, 122, 122);
+(4, 'Januari', 1, 2, 76, 54),
+(5, 'Februari', 2, 5, 32, 54),
+(6, 'Desember', 1, 2, 145, 32),
+(7, 'Januari', 2, 4, 255, 32);
 
 -- --------------------------------------------------------
 
@@ -263,7 +284,7 @@ INSERT INTO `tahsin` (`no_tahsin`, `bulan`, `juz`, `surat`, `ayat`, `nim_mhs`) V
 
 CREATE TABLE `taklim` (
   `no_Takl` int(11) NOT NULL,
-  `namaTakl` varchar(10) DEFAULT NULL
+  `namaTakl` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -271,7 +292,10 @@ CREATE TABLE `taklim` (
 --
 
 INSERT INTO `taklim` (`no_Takl`, `namaTakl`) VALUES
-(1, 'al quran');
+(2, 'QURAN'),
+(3, 'AFKAR'),
+(5, 'ENGLISH'),
+(6, 'ARABY');
 
 -- --------------------------------------------------------
 
@@ -289,7 +313,16 @@ CREATE TABLE `tingakTaklim` (
 --
 
 INSERT INTO `tingakTaklim` (`no_tingkattak`, `namatingkat`) VALUES
-(1, 'asasi');
+(3, 'ASASI'),
+(4, 'ALI'),
+(5, 'MUTAWASITH'),
+(7, 'IDAD'),
+(8, 'TAFSIR'),
+(9, 'TARTIL'),
+(10, 'QIROAH'),
+(11, 'ADVANCED'),
+(12, 'INTERMEDI'),
+(13, 'BASIC');
 
 --
 -- Indexes for dumped tables
@@ -387,37 +420,37 @@ ALTER TABLE `tingakTaklim`
 -- AUTO_INCREMENT for table `absen`
 --
 ALTER TABLE `absen`
-  MODIFY `no_absen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `no_absen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `devisi`
 --
 ALTER TABLE `devisi`
-  MODIFY `id_devisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_devisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `nilai`
 --
 ALTER TABLE `nilai`
-  MODIFY `no_nilai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `no_nilai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tahsin`
 --
 ALTER TABLE `tahsin`
-  MODIFY `no_tahsin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `no_tahsin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `taklim`
 --
 ALTER TABLE `taklim`
-  MODIFY `no_Takl` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `no_Takl` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tingakTaklim`
 --
 ALTER TABLE `tingakTaklim`
-  MODIFY `no_tingkattak` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `no_tingkattak` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
