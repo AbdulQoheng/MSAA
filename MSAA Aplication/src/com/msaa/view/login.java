@@ -12,6 +12,7 @@ import com.msaa.view.pendamping.FormPendamping;
 import com.mysql.jdbc.Connection;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -133,6 +134,12 @@ public class login extends javax.swing.JFrame {
                 pendamping.setMabna(result1.getString("M.nama_mab"));
                 pendamping.setDevisi(result1.getString("D.nama_devisi"));
                 pendamping.setPass(pass_txt.getText());
+                
+                PreparedStatement statement = koneksi.koneksiDB().prepareStatement(
+                        "insert log_musyrifah values (null,?,null)");
+
+                statement.setString(1, userid_txt.getText());
+                statement.executeUpdate();
                 
                 FormPendamping n = new FormPendamping();
                 n.setVisible(true);

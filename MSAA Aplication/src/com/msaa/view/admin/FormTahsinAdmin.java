@@ -41,10 +41,12 @@ public class FormTahsinAdmin extends javax.swing.JFrame {
         model();
         awal();
         getdata();
-        
+        setIcon();
         setTitle("MSAA Application");
     }
-    
+      private void setIcon() {
+   
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("rsz_picture1.png"))); }
         public void awal(){
         try {
             cm_mahad.removeAllItems();

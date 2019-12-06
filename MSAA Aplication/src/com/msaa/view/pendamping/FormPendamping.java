@@ -26,10 +26,12 @@ public class FormPendamping extends javax.swing.JFrame {
     public FormPendamping() {
         initComponents();
         lokasi();
-       
+       setIcon();
         setTitle("MSAA Application"); 
     }
-    
+      private void setIcon() {
+   
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("rsz_picture1.png"))); }
     protected void lokasi(){
         int x = layar.width / 2  -this.getSize().width / 2;
         int y = layar.height / 2 - this.getSize().height / 2;

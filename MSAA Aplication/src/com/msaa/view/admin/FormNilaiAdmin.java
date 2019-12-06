@@ -7,6 +7,7 @@ package com.msaa.view.admin;
 
 import com.mysql.jdbc.Connection;
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -40,10 +41,12 @@ public class FormNilaiAdmin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         model();
         awal();
-        
+        setIcon();
         setTitle("MSAA Application");
     }
-
+  private void setIcon() {
+   
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("rsz_picture1.png"))); }
     public String ambilhuruf(String nilai) {
         int angka = Integer.parseInt(nilai);
 

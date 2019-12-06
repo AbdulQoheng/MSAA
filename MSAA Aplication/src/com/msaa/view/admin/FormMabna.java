@@ -34,7 +34,7 @@ public class FormMabna extends javax.swing.JFrame {
         lokasi();
         komponen("awal");
         model();
-    
+    setIcon();
         setTitle("MSAA Application");
     }
 
@@ -239,7 +239,9 @@ public class FormMabna extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_tabelmabnaMouseClicked
-
+  private void setIcon() {
+   
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("rsz_picture1.png"))); }
     private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
         // TODO add your handling code here:
         try {

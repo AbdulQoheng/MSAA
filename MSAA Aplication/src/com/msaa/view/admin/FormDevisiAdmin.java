@@ -7,6 +7,7 @@ package com.msaa.view.admin;
 
 import com.mysql.jdbc.Connection;
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,10 +28,12 @@ public class FormDevisiAdmin extends javax.swing.JFrame {
     public FormDevisiAdmin() {
         initComponents();
         model();
-        
+        setIcon();
         setTitle("MSAA Application");
     }
-    
+      private void setIcon() {
+   
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("rsz_picture1.png"))); }
     public void model() {
 
         model = new DefaultTableModel();

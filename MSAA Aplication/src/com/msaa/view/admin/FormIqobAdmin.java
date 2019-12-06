@@ -48,10 +48,12 @@ public class FormIqobAdmin extends javax.swing.JFrame {
         model();
         getdata();
         awal();
-
+setIcon();
         setTitle("MSAA Application");
     }
-
+  private void setIcon() {
+   
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("rsz_picture1.png"))); }
     protected void lokasi() {
         int x = layar.width / 2 - this.getSize().width / 2;
         int y = layar.height / 2 - this.getSize().height / 2;
@@ -123,11 +125,11 @@ public class FormIqobAdmin extends javax.swing.JFrame {
         int jumlahper = hadir + izin + sakit + alpha;
         double iqob = (double) hadir / (double) jumlahper;
         if (iqob <= 0.50) {
-            return "berat";
+            return "Berat";
         }else if (iqob <= 0.75){
-        return "sedang";
+        return "Sedang";
         }else if(iqob <= 0.80){
-            return "sedang";
+            return "Ringan";
         }
         return "Aman";
 

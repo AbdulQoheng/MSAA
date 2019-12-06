@@ -7,6 +7,7 @@ package com.msaa.view.admin;
 
 import com.mysql.jdbc.Connection;
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -46,7 +47,7 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         awal();
         btn_Importfile.setEnabled(false);
-    
+    setIcon();
         setTitle("MSAA Application");
     }
 
@@ -524,7 +525,9 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButton4ActionPerformed
-
+  private void setIcon() {
+   
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("rsz_picture1.png"))); }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         try {
@@ -575,8 +578,8 @@ public class FormMahasantriAdmin extends javax.swing.JFrame {
             String nama = tabel_mahasantri.getValueAt(row, 1).toString();
             String jurusan = tabel_mahasantri.getValueAt(row, 3).toString();
             String mabna = tabel_mahasantri.getValueAt(row, 4).toString();
-            String lantai = tabel_mahasantri.getValueAt(row, 5).toString();
-            String kamar = tabel_mahasantri.getValueAt(row, 6).toString();
+            String lantai = tabel_mahasantri.getValueAt(row, 6).toString();
+            String kamar = tabel_mahasantri.getValueAt(row, 5).toString();
 
             txt_nim.setText(String.valueOf(nim));
             txt_nama.setText(String.valueOf(nama));

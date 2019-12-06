@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 05, 2019 at 05:44 PM
+-- Generation Time: Dec 06, 2019 at 03:49 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -49,7 +49,9 @@ INSERT INTO `absen` (`no_absen`, `bulan`, `Hadir`, `alpha`, `izin`, `sakit`, `ke
 (13, 'Desember', 10, 0, 1, 0, 'A', 3, 2, 32),
 (14, 'Desember', 10, 1, 0, 1, 'B', 3, 3, 32),
 (15, 'Desember', 10, 0, 0, 0, 'A', 11, 5, 32),
-(16, 'Desember', 10, 0, 0, 0, 'B', 4, 6, 32);
+(16, 'Desember', 10, 0, 0, 0, 'B', 4, 6, 32),
+(17, 'Januari', 0, 10, 5, 0, 'A', 3, 2, 1),
+(18, 'Desember', 5, 10, 0, 2, 'A', 3, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -75,6 +77,7 @@ INSERT INTO `acount_musyrifah` (`userid`, `nama`, `kode_mab`, `id_devisi`, `pass
 ('18650050', 'NAILA NAHDIYAH', 'MB9', 6, 'NIA'),
 ('18650051', 'ABD. QOHAR AGUS MAULANA', 'MB1', 5, 'jenengku'),
 ('18650053', 'RIZKI FITRIANI', 'MB10', 3, 'RIZKI'),
+('18650055', 'LINGGA WAHYU ROCHIM', 'MB1', 4, 'LING'),
 ('18650082', 'NISA KHOLIFATUL UMMAH', 'MB11', 8, 'NISA');
 
 -- --------------------------------------------------------
@@ -161,6 +164,7 @@ CREATE TABLE `jurusan` (
 
 INSERT INTO `jurusan` (`kode_jur`, `nama_jur`, `kode_fak`) VALUES
 ('11', 'PSIKOLOGI', 'F3'),
+('22', 'PGMI', 'F2'),
 ('81', 'BIOLOGI', 'F1'),
 ('82', 'FISIKA', 'F1'),
 ('83', 'KIMIA', 'F1'),
@@ -168,6 +172,37 @@ INSERT INTO `jurusan` (`kode_jur`, `nama_jur`, `kode_fak`) VALUES
 ('86', 'TEKNIK INFORMATIKA', 'F1'),
 ('87', 'TEKNIK ARSITEKTUR', 'F1'),
 ('88', 'PERPUSTAKAAN', 'F1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_musyrifah`
+--
+
+CREATE TABLE `log_musyrifah` (
+  `id` int(11) NOT NULL,
+  `userid` varchar(20) DEFAULT NULL,
+  `waktu_login` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `log_musyrifah`
+--
+
+INSERT INTO `log_musyrifah` (`id`, `userid`, `waktu_login`) VALUES
+(1, '18650053', '2019-12-06'),
+(2, '18650053', '2019-12-06'),
+(3, '18650053', '2019-12-06'),
+(4, '18650053', '2019-12-06'),
+(5, '18650053', '2019-12-06');
+
+--
+-- Triggers `log_musyrifah`
+--
+DELIMITER $$
+CREATE TRIGGER `login_musyrifah` BEFORE INSERT ON `log_musyrifah` FOR EACH ROW begin set new.waktu_login = sysdate(); end
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -218,14 +253,21 @@ CREATE TABLE `mahasantri` (
 --
 
 INSERT INTO `mahasantri` (`nim_mahasantri`, `nama`, `kode_jur`, `kode_mab`, `lantai`, `kamar`) VALUES
-(32, 'AULIA', '87', 'MB10', 12, 2),
-(33, 'MALARANGING', '83', 'MB1', 17, 1),
-(34, 'ILHAM', '82', 'MB1', 17, 1),
+(1, 'HIDA', '86', 'MB10', 2, 17),
+(32, 'AULIA', '87', 'MB10', 2, 20),
+(33, 'MALARANGING', '83', 'MB1', 1, 1),
+(34, 'ILHAM', '82', 'MB1', 1, 1),
 (47, 'ADAM', '81', 'MB1', 1, 17),
 (48, 'ANNISA', '87', 'MB9', 2, 33),
 (49, 'ANDY', '83', 'MB1', 1, 17),
 (54, 'QOHAR', '86', 'MB1', 1, 2),
-(55, 'AGUS', '81', 'MB1', 3, 4);
+(55, 'AGUS', '81', 'MB1', 3, 4),
+(60, 'asdfgh', '81', 'MB10', 2, 15),
+(61, 'jhgdf', '81', 'MB10', 2, 15),
+(62, 'kmrn ', '81', 'MB10', 2, 15),
+(63, 'ujtyehr', '81', 'MB10', 2, 15),
+(64, 'ujtyen', '81', 'MB10', 2, 15),
+(65, 'mnb', '81', 'MB10', 2, 15);
 
 -- --------------------------------------------------------
 
@@ -371,6 +413,13 @@ ALTER TABLE `jurusan`
   ADD KEY `jurusan_ibfk_1` (`kode_fak`);
 
 --
+-- Indexes for table `log_musyrifah`
+--
+ALTER TABLE `log_musyrifah`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userid` (`userid`);
+
+--
 -- Indexes for table `mabna`
 --
 ALTER TABLE `mabna`
@@ -420,13 +469,19 @@ ALTER TABLE `tingakTaklim`
 -- AUTO_INCREMENT for table `absen`
 --
 ALTER TABLE `absen`
-  MODIFY `no_absen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `no_absen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `devisi`
 --
 ALTER TABLE `devisi`
   MODIFY `id_devisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `log_musyrifah`
+--
+ALTER TABLE `log_musyrifah`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `nilai`
@@ -476,6 +531,12 @@ ALTER TABLE `acount_musyrifah`
 --
 ALTER TABLE `jurusan`
   ADD CONSTRAINT `jurusan_ibfk_1` FOREIGN KEY (`kode_fak`) REFERENCES `fakultas` (`kode_fak`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `log_musyrifah`
+--
+ALTER TABLE `log_musyrifah`
+  ADD CONSTRAINT `log_musyrifah_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `acount_musyrifah` (`userid`);
 
 --
 -- Constraints for table `mahasantri`

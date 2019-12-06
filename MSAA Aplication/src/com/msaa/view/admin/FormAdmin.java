@@ -30,7 +30,9 @@ public class FormAdmin extends javax.swing.JFrame {
         setTitle("MSAA Application");
         setIcon();
     }
-
+  private void setIcon() {
+   
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("rsz_picture1.png"))); }
     protected void lokasi() {
         int x = layar.width / 2 - this.getSize().width / 2;
         int y = layar.height / 2 - this.getSize().height / 2;
@@ -256,8 +258,5 @@ public class FormAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel tahsin;
     // End of variables declaration//GEN-END:variables
 
-    private void setIcon() {
-     
-    
-    }
+   
 }

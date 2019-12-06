@@ -7,6 +7,7 @@ package com.msaa.view.pendamping;
 
 import com.mysql.jdbc.Connection;
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -40,12 +41,14 @@ public class FormAbsensiPendamping extends javax.swing.JFrame {
         awal();
         model();
         getdata();
-        
+        setIcon();
         btn_Importfile.setEnabled(false);
   
         setTitle("MSAA Application");
     }
-
+  private void setIcon() {
+   
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("rsz_picture1.png"))); }
     public void awal() {
         try {
             txt_mabna.setText(pendamping.getMabna());
